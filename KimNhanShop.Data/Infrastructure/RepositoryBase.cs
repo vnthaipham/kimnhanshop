@@ -10,20 +10,25 @@ namespace KimNhanShop.Data.Infrastructure
     {
         #region Properties
         private KimNhanShopDbContext dataContext;
-        private readonly IDbSet<T> dbSet;
+        private readonly IDbSet<T> dbSet; // Đại diện cho lớp DbSet trong tầng Data của bảng nhất định
 
+        // khởi tạo đối tượng DbContext
+        // Khai báo interface, không phụ thuộc vào class
         protected IDbFactory DbFactory
         {
             get;
             private set;
         }
 
+        // Lớp DbContext: trả về đối tượng DbContext nếu bị Null thì gọi DbFactory.Init()
         protected KimNhanShopDbContext DbContext
         {
             get { return dataContext ?? (dataContext = DbFactory.Init()); }
         }
         #endregion
 
+        // Constructor của class truyền vào 1 tham số kiểu IDbFactory 
+        // Đây là Cơ chế để khởi tạo RepositoryBase
         protected RepositoryBase(IDbFactory dbFactory)
         {
             DbFactory = dbFactory;
@@ -51,6 +56,8 @@ namespace KimNhanShop.Data.Infrastructure
             var entity = dbSet.Find(id);
             return dbSet.Remove(entity);
         }
+
+        // where = truyền 1 biểu thức expression
         public virtual void DeleteMulti(Expression<Func<T, bool>> where)
         {
             IEnumerable<T> objects = dbSet.Where<T>(where).AsEnumerable();

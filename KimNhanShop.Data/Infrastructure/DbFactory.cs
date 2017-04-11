@@ -10,6 +10,7 @@ namespace KimNhanShop.Data.Infrastructure
     {
         private KimNhanShopDbContext dbContext;
 
+        // Khi init sẽ kiểm tra?? Chưa có sẽ tự khởi tạo, có rồi thì thôi
         public KimNhanShopDbContext Init()
         {
             return dbContext ?? (dbContext = new KimNhanShopDbContext());
